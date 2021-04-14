@@ -10,18 +10,29 @@ public class Game {
     public static final char FLAG_MARK = 'x';
     public static final char QUESTION_MARK = '?';
 
-    public int rows;
-    public int columns;
-    public int[][] cellMines; // numbers from 0 to 8 or a '*' sign that represents a mine
-    public char[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks
+    private User player;
 
-    public Game(int rows, int columns, int mines) {
+    private String id;
+
+    private int rows;
+
+    private int columns;
+
+    private char[][] cellMines; // numbers from 0 to 8 or a '*' sign that represents a mine
+
+    private char[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
+
+    public Game(User player, int rows, int columns, int mines) {
+        this.player = player;
         this.rows = rows;
         this.columns = columns;
 
-        if(rows * columns > mines) {
+        if(mines > rows * columns) {
             throw new RuntimeException("Invalid amount of mines");
         }
+
+        cellMines = new char[rows][columns];
+        cellState = new char[rows][columns];
 
         for(int x = 0; x < rows; x++) {
             for(int y = 0; y < columns; y++) {
@@ -51,6 +62,30 @@ public class Game {
                 }
             }
         }
+    }
+
+    public User getPlayer() {
+        return player;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public char[][] getCellMines() {
+        return cellMines;
+    }
+
+    public char[][] getCellState() {
+        return cellState;
     }
 
     /**
