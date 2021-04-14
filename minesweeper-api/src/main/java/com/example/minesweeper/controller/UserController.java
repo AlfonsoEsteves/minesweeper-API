@@ -13,6 +13,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Creates a new user and persists it in the database.
+     *
+     * @param userCreationRequest object containing the user name and password
+     */
     @PostMapping("/user")
     public void createUser(@RequestBody UserCreationRequest userCreationRequest) {
         userService.createUser(userCreationRequest.name, userCreationRequest.password);

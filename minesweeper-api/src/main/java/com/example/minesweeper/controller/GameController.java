@@ -16,6 +16,13 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
+    /**
+     * Creates a new game session for the user.
+     * The game sessions is persisted in the database.
+     *
+     * @param newGameRequest object containing the amount of mines and the grid dimentions
+     * @return the state and id of the created game
+     */
     @PostMapping("/game")
     public SavedGame startNewGame(@RequestBody NewGameRequest newGameRequest) {
 
