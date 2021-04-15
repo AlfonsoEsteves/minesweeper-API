@@ -31,7 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // The endpoint for signing up does not need authentication
-        web.ignoring().antMatchers(HttpMethod.POST, "/user");
+        web.ignoring()
+                .antMatchers(HttpMethod.POST, "/user")
+                .antMatchers(HttpMethod.GET, "/")
+                .antMatchers(HttpMethod.GET, "/index")
+                .antMatchers(HttpMethod.GET, "/index.html");
     }
 
     @Bean

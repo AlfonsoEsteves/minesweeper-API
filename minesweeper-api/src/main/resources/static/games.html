@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2>Start a new game:</h2>
+        <p>
+            Rows:
+            <input type="text" id="rows" name="rows">
+            Columns:
+            <input type="text" id="columns" name="columns">
+            Mines:
+            <input type="text" id="mines" name="mines">
+        </p>
+        <button type="button" onclick="startNewGame()">Start new game</button>
+        <h2>Or resume a previous game:</h2>
+        <div id="gamesDiv"/>
+    </body>
+    <script>
+        function startNewGame() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    localStorage.setItem("gameId", xhr.responseText);
+                    window.location.replace(`/playgame.html`);
+                }
+            };
+            xhr.open("POST", "/game", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                "rows": document.getElementById("rows").value,
+                "columns": document.getElementById("columns").value,
+                "mines": document.getElementById("mines").value
+            }));
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let ids = JSON.parse(xhr.responseText);
+                let gamesDiv = document.getElementById("gamesDiv");
+                ids.forEach(id => {
+                    let button = document.createElement("button");
+                    button.textContent = `Resume game ${id}`;
+                    button.onclick = function() {
+                        localStorage.setItem("gameId", id);
+                        window.location.replace(`/playgame.html`);
+                    };
+                    let paragraph = document.createElement("p");
+                    paragraph.appendChild(button);
+                    gamesDiv.appendChild(paragraph);
+                });
+            }
+        };
+        xhr.open("GET", "/game", true);
+        var result = xhr.send();
+    </script>
+</html>

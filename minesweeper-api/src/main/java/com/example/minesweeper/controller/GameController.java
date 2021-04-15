@@ -28,11 +28,11 @@ public class GameController {
      * @return the state and id of the created game
      */
     @PostMapping("/game")
-    public SavedGame startNewGame(@RequestBody NewGameRequest newGameRequest) {
+    public String startNewGame(@RequestBody NewGameRequest newGameRequest) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Game game = new Game(username, newGameRequest.rows, newGameRequest.columns, newGameRequest.mines);
         SavedGame savedGame = new SavedGame(game);
-        return gameRepository.save(savedGame);
+        return gameRepository.save(savedGame).getId();
     }
 
     /**

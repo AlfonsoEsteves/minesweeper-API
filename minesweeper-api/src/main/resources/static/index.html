@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Welcome to Mine Sweeper by Alfonso Esteves!</h1>
+        <p>Enter you name:</p>
+        <input type="text" id="name" name="name">
+        <p>Enter you password:</p>
+        <input type="text" id="password" name="password">
+        <p>New account?</p>
+        <button type="button" onclick="signup()">Sign Up</button>
+        <p>You already have an account?</p>
+        <button type="button" onclick="login()">Login</button>
+    </body>
+    <script>
+        function signup() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    login();
+                }
+            }
+            xhr.open("POST", "/user", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                "name": document.getElementById("name").value,
+                "password": document.getElementById("password").value
+            }));
+        }
+        function login() {
+            let token = btoa(document.getElementById("name").value + ':' + document.getElementById("password").value);
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    window.location.replace('/games.html');
+                }
+            }
+            xhr.open("GET", "/login", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('Authorization', `basic ${token}`);
+            xhr.send();
+        }
+    </script>
+</html>
