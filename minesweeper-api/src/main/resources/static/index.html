@@ -10,13 +10,24 @@
         <button type="button" onclick="signup()">Sign Up</button>
         <p>You already have an account?</p>
         <button type="button" onclick="login()">Login</button>
+        <div id="errorMessage"/>
     </body>
     <script>
         function signup() {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    login();
+                if (this.readyState == 4) {
+                    if(this.status == 200) {
+                        login();
+                    }
+                    else {
+                        let errorMessage = document.getElementById("errorMessage");
+                        let paragraph = document.createElement("p");
+                        paragraph.style="color:red;"
+                        paragraph.innerHTML = xhr.responseText;
+                        errorMessage.innerHTML = '';
+                        errorMessage.appendChild(paragraph);
+                    }
                 }
             }
             xhr.open("POST", "/user", true);
@@ -30,8 +41,18 @@
             let token = btoa(document.getElementById("name").value + ":" + document.getElementById("password").value);
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    window.location.replace('/games.html');
+                if (this.readyState == 4) {
+                    if(this.status == 200) {
+                        window.location.replace('/games.html');
+                    }
+                    else {
+                        let errorMessage = document.getElementById("errorMessage");
+                        let paragraph = document.createElement("p");
+                        paragraph.style="color:red;"
+                        paragraph.innerHTML = xhr.responseText;
+                        errorMessage.innerHTML = '';
+                        errorMessage.appendChild(paragraph);
+                    }
                 }
             }
             xhr.open("GET", "/login", true);

@@ -1,6 +1,6 @@
 package com.example.minesweeper.authentication;
 
-import com.example.minesweeper.model.User;
+import com.example.minesweeper.gamelogic.User;
 import com.example.minesweeper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +19,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.loadUser(username);
+        if(user == null) {
+            throw new UsernameNotFoundException("There is no user with the name " + username);
+        }
         return new CustomUserDetails(user);
     }
 }

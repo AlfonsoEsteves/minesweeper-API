@@ -1,7 +1,6 @@
 package com.example.minesweeper.service;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
-import com.example.minesweeper.model.Game;
+import com.example.minesweeper.gamelogic.Game;
 import com.example.minesweeper.repository.GameRepository;
 import com.example.minesweeper.repository.SavedGame;
 import com.example.minesweeper.repository.SavedGameId;

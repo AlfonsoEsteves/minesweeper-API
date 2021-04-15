@@ -1,4 +1,6 @@
-package com.example.minesweeper.model;
+package com.example.minesweeper.gamelogic;
+
+import com.example.minesweeper.gamelogic.exceptions.InvalidGameSettingsException;
 
 import java.util.Random;
 
@@ -34,7 +36,7 @@ public class Game {
 
     public void initialize(int mines) {
         if(mines > rows * columns) {
-            throw new RuntimeException("Invalid amount of mines");
+            throw new InvalidGameSettingsException("Invalid amount of mines");
         }
 
         cellMines = new String[rows][columns];

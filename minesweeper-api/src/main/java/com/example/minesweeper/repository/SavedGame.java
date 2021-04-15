@@ -1,7 +1,7 @@
 package com.example.minesweeper.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.example.minesweeper.model.Game;
+import com.example.minesweeper.gamelogic.Game;
 import com.example.minesweeper.repository.exception.GameLoadingException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

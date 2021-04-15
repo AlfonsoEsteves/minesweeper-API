@@ -1,6 +1,6 @@
 package com.example.minesweeper.service;
 
-import com.example.minesweeper.model.User;
+import com.example.minesweeper.gamelogic.User;
 import com.example.minesweeper.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

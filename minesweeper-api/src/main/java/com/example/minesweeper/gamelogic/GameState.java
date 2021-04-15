@@ -1,4 +1,4 @@
-package com.example.minesweeper.model;
+package com.example.minesweeper.gamelogic;
 
 public enum GameState {
     WON,

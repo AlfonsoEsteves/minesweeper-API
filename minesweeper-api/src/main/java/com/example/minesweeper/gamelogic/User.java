@@ -1,4 +1,4 @@
-package com.example.minesweeper.model;
+package com.example.minesweeper.gamelogic;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;

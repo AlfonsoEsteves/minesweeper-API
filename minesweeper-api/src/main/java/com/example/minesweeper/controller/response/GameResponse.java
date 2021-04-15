@@ -1,7 +1,7 @@
 package com.example.minesweeper.controller.response;
 
-import com.example.minesweeper.model.Game;
-import com.example.minesweeper.model.GameState;
+import com.example.minesweeper.gamelogic.Game;
+import com.example.minesweeper.gamelogic.GameState;
 
 /**
  * This is the game state that the player will be capable of seeing

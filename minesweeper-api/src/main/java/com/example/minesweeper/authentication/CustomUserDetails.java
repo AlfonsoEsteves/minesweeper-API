@@ -1,6 +1,6 @@
 package com.example.minesweeper.authentication;
 
-import com.example.minesweeper.model.User;
+import com.example.minesweeper.gamelogic.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
