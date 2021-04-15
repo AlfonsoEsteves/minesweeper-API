@@ -29,7 +29,7 @@ public class SavedGame {
     }
 
     public SavedGame(Game game) {
-        player = game.getPlayer().getName();
+        player = game.getPlayer();
         id = game.getId();
         savedGameId = new SavedGameId(player, id);
         rows = game.getRows();

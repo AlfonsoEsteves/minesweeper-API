@@ -9,12 +9,12 @@ public class User {
 
     private String name;
 
-    private int passwordHash;
+    private String passwordHash;
 
     public User() {
     }
 
-    public User(String name, int passwordHash) {
+    public User(String name, String passwordHash) {
         this.name = name;
         this.passwordHash = passwordHash;
     }
@@ -29,11 +29,11 @@ public class User {
     }
 
     @DynamoDBAttribute(attributeName = "passwordHash")
-    public int getPasswordHash() {
+    public String getPasswordHash() {
         return passwordHash;
     }
 
-    public void setPasswordHash(int passwordHash) {
+    public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
 }

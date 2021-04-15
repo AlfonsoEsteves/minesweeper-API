@@ -10,7 +10,7 @@ public class Game {
     public static final char FLAG_MARK = 'x';
     public static final char QUESTION_MARK = '?';
 
-    private User player;
+    private String player;
 
     private String id;
 
@@ -22,7 +22,7 @@ public class Game {
 
     private char[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
 
-    public Game(User player, int rows, int columns, int mines) {
+    public Game(String player, int rows, int columns, int mines) {
         this.player = player;
         this.rows = rows;
         this.columns = columns;
@@ -64,7 +64,7 @@ public class Game {
         }
     }
 
-    public User getPlayer() {
+    public String getPlayer() {
         return player;
     }
 
