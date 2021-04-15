@@ -5,4 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 @EnableScan
 public interface GameRepository extends CrudRepository<SavedGame, SavedGameId> {
+
+    Iterable<SavedGame> findByPlayer(String player);
+
 }
