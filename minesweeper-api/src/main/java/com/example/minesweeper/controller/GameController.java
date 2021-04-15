@@ -4,7 +4,6 @@ import com.example.minesweeper.controller.request.GameActionRequest;
 import com.example.minesweeper.controller.request.NewGameRequest;
 import com.example.minesweeper.controller.response.GameResponse;
 import com.example.minesweeper.model.Game;
-import com.example.minesweeper.repository.SavedGame;
 import com.example.minesweeper.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

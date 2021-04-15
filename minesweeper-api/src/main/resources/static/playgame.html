@@ -25,7 +25,7 @@
                     let paragraph = document.createElement("p");
                     for(let j = 0;j < game.columns; j++) {
                         let button = document.createElement("button");
-                        button.textContent = `b${i}${j}`;
+                        button.textContent = game.cells[i][j];
                         button.onclick = function() {
                             let selectedAction = null;
                             let actions = document.getElementsByName("actions");

@@ -31,8 +31,7 @@ public class GameService {
     }
 
     public Game getGame(String username, String gameId) {
-        SavedGame savedGame = gameRepository.findById(new SavedGameId(username, gameId)).get();
-        return savedGame.toGame();
+        return gameRepository.findById(new SavedGameId(username, gameId)).get().toGame();
     }
 
     public Game performGameAction(String username, String gameId, String action, int row, int column) {

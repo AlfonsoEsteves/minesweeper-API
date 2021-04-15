@@ -2,8 +2,10 @@ package com.example.minesweeper.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.example.minesweeper.model.Game;
+import com.example.minesweeper.repository.exception.GameLoadingException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.springframework.data.annotation.Id;
 
 @DynamoDBTable(tableName = "MineSweeperGame")
@@ -100,13 +102,25 @@ public class SavedGame {
 
     public Game toGame() {
         Game game = new Game(player, rows, columns);
+        String[][] newCellMines = new String[rows][columns];
+        String[][] newCellState = new String[rows][columns];
         ObjectMapper objectMapper = new ObjectMapper();
-
-
-
-
-        game.setCellMines(objectMapper.convertValue(cellMines, String[][].class));
-        game.setCellState(objectMapper.convertValue(cellState, String[][].class));
-        return game;
+        try {
+            ArrayNode minesMatrixNode = (ArrayNode)objectMapper.readTree(cellMines);
+            ArrayNode stateMatrixNode = (ArrayNode)objectMapper.readTree(cellState);
+            for(int i = 0; i < minesMatrixNode.size(); i++) {
+                ArrayNode minesRowNode = (ArrayNode)minesMatrixNode.get(i);
+                ArrayNode stateRowNode = (ArrayNode)stateMatrixNode.get(i);
+                for(int j = 0; j < minesRowNode.size(); j++) {
+                    newCellMines[i][j] = minesRowNode.get(j).textValue();
+                    newCellState[i][j] = stateRowNode.get(j).textValue();
+                }
+            }
+            game.setCellMines(newCellMines);
+            game.setCellState(newCellState);
+            return game;
+        } catch (JsonProcessingException e) {
+            throw new GameLoadingException("Could not parse the game loader from the database");
+        }
     }
 }
