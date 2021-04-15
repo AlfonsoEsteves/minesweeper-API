@@ -123,12 +123,22 @@ public class Game {
         return true;
     }
 
+    /**
+     * Adds a flag mark in the position (x, y)
+     * @param x row
+     * @param y column
+     */
     public void addFlagMark(int x, int y) {
         if (cellState[x][y] != UNCOVERED_CELL) {
             cellState[x][y] = FLAG_MARK;
         }
     }
 
+    /**
+     * Adds a question mark in the position (x, y)
+     * @param x row
+     * @param y column
+     */
     public void addQuestionMark(int x, int y) {
         if (cellState[x][y] != UNCOVERED_CELL) {
             cellState[x][y] = QUESTION_MARK;
