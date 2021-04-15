@@ -1,5 +1,6 @@
 package com.example.minesweeper.service;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.example.minesweeper.model.Game;
 import com.example.minesweeper.repository.GameRepository;
 import com.example.minesweeper.repository.SavedGame;
@@ -35,6 +36,19 @@ public class GameService {
     }
 
     public Game performGameAction(String username, String gameId, String action, int row, int column) {
-        return gameRepository.findById(new SavedGameId(username, gameId)).get().toGame();
+        Game game = gameRepository.findById(new SavedGameId(username, gameId)).get().toGame();
+        switch (action) {
+            case "uncover":
+                game.uncoverCell(row, column);
+                break;
+            case "flagMark":
+                game.addFlagMark(row, column);
+                break;
+            case "questionMark":
+                game.addQuestionMark(row, column);
+                break;
+        }
+        gameRepository.save(new SavedGame(game));
+        return game;
     }
 }

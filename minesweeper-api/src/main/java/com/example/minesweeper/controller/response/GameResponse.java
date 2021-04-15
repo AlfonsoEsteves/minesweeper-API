@@ -1,6 +1,7 @@
 package com.example.minesweeper.controller.response;
 
 import com.example.minesweeper.model.Game;
+import com.example.minesweeper.model.GameState;
 
 /**
  * This is the game state that the player will be capable of seeing
@@ -11,6 +12,7 @@ public class GameResponse {
     public int rows;
     public int columns;
     public String[][] cells; // numbers from 0 to 8 or a '*' sign that represents a mine
+    public GameState state;
 
     public GameResponse(Game game) {
         rows = game.getRows();
@@ -26,5 +28,9 @@ public class GameResponse {
                 }
             }
         }
+
+        state = game.checkState();
     }
+
+
 }

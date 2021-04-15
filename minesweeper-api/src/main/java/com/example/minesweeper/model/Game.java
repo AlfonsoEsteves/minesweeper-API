@@ -27,6 +27,10 @@ public class Game {
         this.rows = rows;
         this.columns = columns;
     }
+    public Game(String player, String id, int rows, int columns) {
+        this(player, rows, columns);
+        this.id = id;
+    }
 
     public void initialize(int mines) {
         if(mines > rows * columns) {
@@ -42,11 +46,11 @@ public class Game {
                 cellState[x][y] = COVERED_CELL;
             }
         }
-        Random random = new Random();
+        Random random = new Random(0);
         for(int placedMines = 0; placedMines < mines; placedMines++) {
             int x = random.nextInt(rows);
             int y = random.nextInt(columns);
-            while(cellState[x][y].equals(MINE)) {
+            while(cellMines[x][y].equals(MINE)) {
                 x++;
                 if(x == rows) {
                     x = 0;
@@ -110,7 +114,7 @@ public class Game {
         if(cellMines[x][y].equals(MINE)) {
             for(int i = 0; i < rows; i++) {
                 for(int j = 0; j < columns; j++) {
-                    cellState[x][y] = UNCOVERED_CELL;
+                    cellState[i][j] = UNCOVERED_CELL;
                 }
             }
             return false;
@@ -121,7 +125,7 @@ public class Game {
                     for (int adjacentY = y - 1; adjacentY <= y + 1; adjacentY++) {
                         if (adjacentX >= 0 && adjacentX < rows && adjacentY >= 0 && adjacentY < columns) {
                             if (!cellState[adjacentX][adjacentY].equals(UNCOVERED_CELL)) {
-                                if(!uncoverCell(x, y)) {
+                                if(!uncoverCell(adjacentX, adjacentY)) {
                                     return false;
                                 }
                             }
@@ -152,6 +156,26 @@ public class Game {
     public void addQuestionMark(int x, int y) {
         if (!cellState[x][y].equals(UNCOVERED_CELL)) {
             cellState[x][y] = QUESTION_MARK;
+        }
+    }
+
+    public GameState checkState() {
+        boolean coveredEmptyCell = false;
+        for(int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(cellMines[i][j].equals(MINE) && cellState[i][j].equals(UNCOVERED_CELL)) {
+                    return GameState.LOST;
+                }
+                if(!cellMines[i][j].equals(MINE) && !cellState[i][j].equals(UNCOVERED_CELL)) {
+                    coveredEmptyCell = true;
+                }
+            }
+        }
+        if(coveredEmptyCell) {
+            return GameState.ONGOING;
+        }
+        else {
+            return GameState.WON;
         }
     }
 }

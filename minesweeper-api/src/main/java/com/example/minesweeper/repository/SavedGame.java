@@ -101,7 +101,7 @@ public class SavedGame {
     }
 
     public Game toGame() {
-        Game game = new Game(player, rows, columns);
+        Game game = new Game(player, id, rows, columns);
         String[][] newCellMines = new String[rows][columns];
         String[][] newCellState = new String[rows][columns];
         ObjectMapper objectMapper = new ObjectMapper();
