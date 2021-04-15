@@ -25,7 +25,6 @@ public class SavedGame {
     private String cellState;
 
     public SavedGame() {
-        System.out.println();
     }
 
     public SavedGame(Game game) {

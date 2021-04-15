@@ -21,7 +21,10 @@ public class UserService {
      * @param password the user's password
      * @return the created user
      */
-    public User createUser(String name, String password) {
+    public User createUser(String name, String password) throws UserAlreadyExistsException {
+        if(loadUser(name) != null) {
+            throw new UserAlreadyExistsException();
+        }
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User user = new User(name, hashedPassword);
         userRepository.save(user);
@@ -29,6 +32,6 @@ public class UserService {
     }
 
     public User loadUser(String name) throws UsernameNotFoundException {
-        return userRepository.findById(name).get();
+        return userRepository.findById(name).orElse(null);
     }
 }
