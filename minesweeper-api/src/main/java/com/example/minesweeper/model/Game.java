@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class Game {
 
-    public static final char MINE = '*';
-    public static final char COVERED_CELL = '.';
-    public static final char UNCOVERED_CELL = ' ';
-    public static final char FLAG_MARK = 'x';
-    public static final char QUESTION_MARK = '?';
+    public static final String MINE = "*";
+    public static final String COVERED_CELL = ".";
+    public static final String UNCOVERED_CELL = " ";
+    public static final String FLAG_MARK = "x";
+    public static final String QUESTION_MARK = "?";
 
     private String player;
 
@@ -18,25 +18,27 @@ public class Game {
 
     private int columns;
 
-    private char[][] cellMines; // numbers from 0 to 8 or a '*' sign that represents a mine
+    private String[][] cellMines; // numbers from 0 to 8 or a '*' sign that represents a mine
 
-    private char[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
+    private String[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
 
-    public Game(String player, int rows, int columns, int mines) {
+    public Game(String player, int rows, int columns) {
         this.player = player;
         this.rows = rows;
         this.columns = columns;
+    }
 
+    public void initialize(int mines) {
         if(mines > rows * columns) {
             throw new RuntimeException("Invalid amount of mines");
         }
 
-        cellMines = new char[rows][columns];
-        cellState = new char[rows][columns];
+        cellMines = new String[rows][columns];
+        cellState = new String[rows][columns];
 
         for(int x = 0; x < rows; x++) {
             for(int y = 0; y < columns; y++) {
-                cellMines[x][y] = '0';
+                cellMines[x][y] = "0";
                 cellState[x][y] = COVERED_CELL;
             }
         }
@@ -44,19 +46,19 @@ public class Game {
         for(int placedMines = 0; placedMines < mines; placedMines++) {
             int x = random.nextInt(rows);
             int y = random.nextInt(columns);
-            while(cellState[x][y] == '*') {
+            while(cellState[x][y].equals(MINE)) {
                 x++;
                 if(x == rows) {
                     x = 0;
                     y = (y + 1) % columns;
                 }
             }
-            cellMines[x][y] = '*';
+            cellMines[x][y] = MINE;
             for (int adjacentX = x - 1; adjacentX <= x + 1; adjacentX++) {
                 for (int adjacentY = y - 1; adjacentY <= y + 1; adjacentY++) {
                     if (adjacentX >= 0 && adjacentX < rows && adjacentY >= 0 && adjacentY < columns) {
-                        if (cellMines[adjacentX][adjacentY] != MINE) {
-                            cellMines[adjacentX][adjacentY]++;
+                        if (!cellMines[adjacentX][adjacentY].equals(MINE)) {
+                            cellMines[adjacentX][adjacentY] = String.valueOf(Integer.parseInt(cellMines[adjacentX][adjacentY]) + 1);
                         }
                     }
                 }
@@ -80,12 +82,20 @@ public class Game {
         return columns;
     }
 
-    public char[][] getCellMines() {
+    public String[][] getCellMines() {
         return cellMines;
     }
 
-    public char[][] getCellState() {
+    public String[][] getCellState() {
         return cellState;
+    }
+
+    public void setCellMines(String[][] cellMines) {
+        this.cellMines = cellMines;
+    }
+
+    public void setCellState(String[][] cellState) {
+        this.cellState = cellState;
     }
 
     /**
@@ -97,7 +107,7 @@ public class Game {
      */
     public boolean uncoverCell(int x, int y) {
         cellState[x][y] = UNCOVERED_CELL;
-        if(cellMines[x][y] == MINE) {
+        if(cellMines[x][y].equals(MINE)) {
             for(int i = 0; i < rows; i++) {
                 for(int j = 0; j < columns; j++) {
                     cellState[x][y] = UNCOVERED_CELL;
@@ -106,11 +116,11 @@ public class Game {
             return false;
         }
         else {
-            if(cellMines[x][y] == 0) {
+            if(cellMines[x][y].equals("0")) {
                 for (int adjacentX = x - 1; adjacentX <= x + 1; adjacentX++) {
                     for (int adjacentY = y - 1; adjacentY <= y + 1; adjacentY++) {
                         if (adjacentX >= 0 && adjacentX < rows && adjacentY >= 0 && adjacentY < columns) {
-                            if (cellState[adjacentX][adjacentY] != UNCOVERED_CELL) {
+                            if (!cellState[adjacentX][adjacentY].equals(UNCOVERED_CELL)) {
                                 if(!uncoverCell(x, y)) {
                                     return false;
                                 }
@@ -129,7 +139,7 @@ public class Game {
      * @param y column
      */
     public void addFlagMark(int x, int y) {
-        if (cellState[x][y] != UNCOVERED_CELL) {
+        if (!cellState[x][y].equals(UNCOVERED_CELL)) {
             cellState[x][y] = FLAG_MARK;
         }
     }
@@ -140,7 +150,7 @@ public class Game {
      * @param y column
      */
     public void addQuestionMark(int x, int y) {
-        if (cellState[x][y] != UNCOVERED_CELL) {
+        if (!cellState[x][y].equals(UNCOVERED_CELL)) {
             cellState[x][y] = QUESTION_MARK;
         }
     }

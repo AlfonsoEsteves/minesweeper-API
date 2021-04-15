@@ -1,24 +1,22 @@
 package com.example.minesweeper.controller;
 
+import com.example.minesweeper.controller.request.GameActionRequest;
 import com.example.minesweeper.controller.request.NewGameRequest;
+import com.example.minesweeper.controller.response.GameResponse;
 import com.example.minesweeper.model.Game;
-import com.example.minesweeper.repository.GameRepository;
 import com.example.minesweeper.repository.SavedGame;
+import com.example.minesweeper.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class GameController {
 
     @Autowired
-    private GameRepository gameRepository;
+    private GameService gameService;
 
     /**
      * Creates a new game session for the user.
@@ -30,21 +28,35 @@ public class GameController {
     @PostMapping("/game")
     public String startNewGame(@RequestBody NewGameRequest newGameRequest) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Game game = new Game(username, newGameRequest.rows, newGameRequest.columns, newGameRequest.mines);
-        SavedGame savedGame = new SavedGame(game);
-        return gameRepository.save(savedGame).getId();
+        return gameService.startNewGame(username, newGameRequest.rows, newGameRequest.columns, newGameRequest.mines);
     }
 
     /**
      * Returns a list with the id of the player's games
      */
     @GetMapping("/game")
-    public List<String> gameList() {
+    public List<String> gamePlayerGameList() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<String> playerGameIds = new ArrayList<>();
-        Iterable<SavedGame> playerGames = gameRepository.findByPlayer(username);
-        playerGames.forEach(game -> playerGameIds.add(game.getId()));
-        return playerGameIds;
+        return gameService.getPlayerGameList(username);
+    }
+
+    @GetMapping("/game/{gameId}")
+    public GameResponse getGame(@PathVariable String gameId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Game game = gameService.getGame(username, gameId);
+        return new GameResponse(game);
+    }
+
+    @PostMapping("/game/{gameId}")
+    public GameResponse gameAction(@PathVariable String gameId, @RequestBody GameActionRequest gameActionRequest) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Game game = gameService.performGameAction(
+                username,
+                gameId,
+                gameActionRequest.action,
+                gameActionRequest.row,
+                gameActionRequest.column);
+        return new GameResponse(game);
     }
 
 }

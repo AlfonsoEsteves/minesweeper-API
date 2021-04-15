@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Select the action taken with the next click:</p>
+        <input type="radio" id="uncover" name="actions" value="uncover" checked>
+        <label for="uncover">Uncover Cell</label><br>
+        <input type="radio" id="flag" name="actions" value="flag">
+        <label for="flag">Add Flag Mark</label><br>
+        <input type="radio" id="mine" name="actions" value="mine">
+        <label for="mine">Add Mine Mark</label>
+
+        <div id="grid"/>
+
+    </body>
+    <script>
+        let gameId = window.localStorage.getItem("gameId");
+        console.log(gameId);
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let game = JSON.parse(xhr.responseText);
+                console.log(game);
+                let grid = document.getElementById("grid");
+                for(let i = 0; i < game.rows; i++) {
+                    let paragraph = document.createElement("p");
+                    for(let j = 0;j < game.columns; j++) {
+                        let button = document.createElement("button");
+                        button.textContent = `b${i}${j}`;
+                        button.onclick = function() {
+                            let selectedAction = null;
+                            let actions = document.getElementsByName("actions");
+                            for(var i = 0; i < actions.length; i++) {
+                                if(actions[i].checked) {
+                                    selectedAction = actions[i].value;
+                                }
+                            }
+                            let xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    console.log('done');
+                                }
+                            }
+                            xhr.open("POST", `/game/${gameId}`, true);
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.send(JSON.stringify({
+                                "row": i,
+                                "column": j,
+                                "action": selectedAction
+                            }));
+                        };
+                        paragraph.appendChild(button);
+                    }
+                    grid.appendChild(paragraph);
+                }
+            }
+        };
+        xhr.open("GET", `/game/${gameId}`, true);
+        var result = xhr.send();
+    </script>
+</html>

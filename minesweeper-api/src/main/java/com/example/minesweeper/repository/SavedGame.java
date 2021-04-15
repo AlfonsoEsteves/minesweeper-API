@@ -97,4 +97,16 @@ public class SavedGame {
     public void setCellState(String cellState) {
         this.cellState = cellState;
     }
+
+    public Game toGame() {
+        Game game = new Game(player, rows, columns);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+
+
+
+        game.setCellMines(objectMapper.convertValue(cellMines, String[][].class));
+        game.setCellState(objectMapper.convertValue(cellState, String[][].class));
+        return game;
+    }
 }
