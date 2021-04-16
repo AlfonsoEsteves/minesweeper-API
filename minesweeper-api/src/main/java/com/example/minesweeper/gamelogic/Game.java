@@ -25,6 +25,12 @@ public class Game {
     private String[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
 
     public Game(String player, int rows, int columns) {
+        if(rows < 0) {
+            throw new InvalidGameSettingsException("Invalid amount of rows");
+        }
+        if(columns < 0) {
+            throw new InvalidGameSettingsException("Invalid amount of columns");
+        }
         this.player = player;
         this.rows = rows;
         this.columns = columns;
@@ -48,7 +54,7 @@ public class Game {
                 cellState[x][y] = COVERED_CELL;
             }
         }
-        Random random = new Random(0);
+        Random random = new Random();
         for(int placedMines = 0; placedMines < mines; placedMines++) {
             int x = random.nextInt(rows);
             int y = random.nextInt(columns);

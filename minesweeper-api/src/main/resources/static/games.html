@@ -11,6 +11,9 @@
             <input type="text" id="mines" name="mines">
         </p>
         <button type="button" onclick="startNewGame()">Start new game</button>
+        <div id="container">
+            <div id="errorMessage"/>
+        </div>
         <h2>Or resume a previous game:</h2>
         <div id="gamesDiv"/>
     </body>
@@ -18,9 +21,19 @@
         function startNewGame() {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    localStorage.setItem("gameId", xhr.responseText);
-                    window.location.replace(`/playgame.html`);
+                if (this.readyState == 4) {
+                    if(this.status == 200) {
+                        localStorage.setItem("gameId", xhr.responseText);
+                        window.location.replace(`/playgame.html`);
+                    }
+                    else {
+                        let errorMessage = document.getElementById("errorMessage");
+                        let paragraph = document.createElement("p");
+                        paragraph.style="color:red;"
+                        paragraph.innerHTML = xhr.responseText;
+                        errorMessage.innerHTML = '';
+                        errorMessage.appendChild(paragraph);
+                    }
                 }
             };
             xhr.open("POST", "/game", true);
