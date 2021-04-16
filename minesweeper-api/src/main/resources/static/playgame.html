@@ -48,14 +48,21 @@
             let grid = document.getElementById("grid");
             grid.innerHTML = '';
             for(let i = 0; i < game.rows; i++) {
-                let paragraph = document.createElement("p");
                 for(let j = 0;j < game.columns; j++) {
                     let button = document.createElement("button");
                     button.textContent = game.cells[i][j];
+                    button.style = "width: 25px;"
+                    if(button.textContent == "." || button.textContent == "x" || button.textContent == "?") {
+                        button.style = "width: 25px; background-color: #909090;"
+                    }
+                    if(button.textContent == "*") {
+                        button.style = "width: 25px; background-color: #FF0000;"
+                    }
                     button.onclick = createButtonFunction(i, j);
-                    paragraph.appendChild(button);
+                    grid.appendChild(button);
                 }
-                grid.appendChild(paragraph);
+                let br = document.createElement("br");
+                grid.appendChild(br);
             }
 
             if(game.state == 'LOST') {
