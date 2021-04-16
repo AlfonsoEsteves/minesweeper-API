@@ -25,10 +25,10 @@ public class Game {
     private String[][] cellState; // ' ' for uncovered cells, '.' for hidden cells, 'x' for mine marks, '?' for question marks*/
 
     public Game(String player, int rows, int columns) {
-        if(rows < 0) {
+        if(rows <= 0) {
             throw new InvalidGameSettingsException("Invalid amount of rows");
         }
-        if(columns < 0) {
+        if(columns <= 0) {
             throw new InvalidGameSettingsException("Invalid amount of columns");
         }
         this.player = player;
