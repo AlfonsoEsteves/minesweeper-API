@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Creates a new user and persists it in the database.

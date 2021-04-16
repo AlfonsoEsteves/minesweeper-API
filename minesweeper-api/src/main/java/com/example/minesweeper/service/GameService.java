@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public class GameService {
 
-    @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     /**
      * Start a new game and persist it in the database
