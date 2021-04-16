@@ -1,7 +1,7 @@
 package com.example.minesweeper.controller;
 
 import com.example.minesweeper.gamelogic.exceptions.InvalidGameSettingsException;
-import com.example.minesweeper.service.UserAlreadyExistsException;
+import com.example.minesweeper.service.exception.UserAlreadyExistsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

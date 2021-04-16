@@ -39,6 +39,12 @@ public class GameController {
         return gameService.getPlayerGameList(username);
     }
 
+    /**
+     * Get the game state that is visible by the player
+     *
+     * @param gameId the id of the requested game
+     * @return the game state
+     */
     @GetMapping("/game/{gameId}")
     public GameResponse getGame(@PathVariable String gameId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -46,6 +52,14 @@ public class GameController {
         return new GameResponse(game);
     }
 
+    /**
+     * Perform an action over over the game on a specific cell
+     * Actions can be either uncovering, marking with flag, and marking with question mark
+     *
+     * @param gameId the id of the game where the action will be performed
+     * @param gameActionRequest the coordinates of the cell and the action to be performed
+     * @return the game state after the action has been performed
+     */
     @PostMapping("/game/{gameId}")
     public GameResponse gameAction(@PathVariable String gameId, @RequestBody GameActionRequest gameActionRequest) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

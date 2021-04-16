@@ -35,11 +35,49 @@ public class Game {
         this.rows = rows;
         this.columns = columns;
     }
+
     public Game(String player, String id, int rows, int columns) {
         this(player, rows, columns);
         this.id = id;
     }
 
+    public String getPlayer() {
+        return player;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public String[][] getCellMines() {
+        return cellMines;
+    }
+
+    public String[][] getCellState() {
+        return cellState;
+    }
+
+    public void setCellMines(String[][] cellMines) {
+        this.cellMines = cellMines;
+    }
+
+    public void setCellState(String[][] cellState) {
+        this.cellState = cellState;
+    }
+
+    /**
+     * Inserts mines inside the board in random places
+     *
+     * @param mines the amount of mines to be inserted
+     */
     public void initialize(int mines) {
         if(mines > rows * columns) {
             throw new InvalidGameSettingsException("Invalid amount of mines");
@@ -76,38 +114,6 @@ public class Game {
                 }
             }
         }
-    }
-
-    public String getPlayer() {
-        return player;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
-    public String[][] getCellMines() {
-        return cellMines;
-    }
-
-    public String[][] getCellState() {
-        return cellState;
-    }
-
-    public void setCellMines(String[][] cellMines) {
-        this.cellMines = cellMines;
-    }
-
-    public void setCellState(String[][] cellState) {
-        this.cellState = cellState;
     }
 
     /**
@@ -167,6 +173,11 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if the player has either won or lost the game, or if the game is still ongoing
+     *
+     * @return GameState indicating the state of the game
+     */
     public GameState checkState() {
         boolean coveredEmptyCell = false;
         for(int i = 0; i < rows; i++) {

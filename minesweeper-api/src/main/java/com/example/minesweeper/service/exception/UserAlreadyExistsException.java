@@ -1,4 +1,4 @@
-package com.example.minesweeper.service;
+package com.example.minesweeper.service.exception;
 
 public class UserAlreadyExistsException extends RuntimeException{
 

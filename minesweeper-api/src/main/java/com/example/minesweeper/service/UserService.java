@@ -2,6 +2,7 @@ package com.example.minesweeper.service;
 
 import com.example.minesweeper.gamelogic.User;
 import com.example.minesweeper.repository.UserRepository;
+import com.example.minesweeper.service.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -31,6 +32,13 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Fetches a user from the database
+     *
+     * @param name of the user
+     * @return the requested user
+     * @throws UsernameNotFoundException
+     */
     public User loadUser(String name) throws UsernameNotFoundException {
         return userRepository.findById(name).orElse(null);
     }
