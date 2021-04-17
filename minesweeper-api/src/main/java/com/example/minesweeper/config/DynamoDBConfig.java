@@ -1,6 +1,7 @@
 package com.example.minesweeper.config;
 
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
@@ -30,15 +31,11 @@ public class DynamoDBConfig {
     private AmazonDynamoDBClientBuilder configDBClientBuilder() {
         AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
         builder.setEndpointConfiguration(amazonEndpointConfiguration());
-        builder.withCredentials(amazonAWSCredentials());
+        builder.withCredentials(DefaultAWSCredentialsProviderChain.getInstance());
         return builder;
     }
 
     private AwsClientBuilder.EndpointConfiguration amazonEndpointConfiguration() {
         return new AwsClientBuilder.EndpointConfiguration(amazonDynamoDBEndpoint, amazonAWSRegion);
-    }
-
-    private AWSCredentialsProvider amazonAWSCredentials() {
-        return new ProfileCredentialsProvider();
     }
 }
